@@ -1,0 +1,37 @@
+﻿namespace Estately.Core.Entities
+{
+
+    public partial class TblPropertyDocument
+    {
+        [Key]
+        public int DocumentID { get; set; }
+
+        public int PropertyID { get; set; }
+
+        public int? UserID { get; set; }
+
+        public int DocumentTypeID { get; set; }
+
+        [Required]
+        [StringLength(300)]
+        public string FilePath { get; set; }
+
+        [Column(TypeName = "datetime")]
+        public DateTime? UploadedAt { get; set; } = DateTime.Now;
+
+        [StringLength(500)]
+        public string? Notes { get; set; }
+
+        [ForeignKey("DocumentTypeID")]
+        [InverseProperty("TblPropertyDocuments")]
+        public virtual LkpDocumentType? DocumentType { get; set; }
+
+        [ForeignKey("PropertyID")]
+        [InverseProperty("TblPropertyDocuments")]
+        public virtual TblProperty? Property { get; set; }
+
+        [ForeignKey("UserID")]
+        [InverseProperty("TblPropertyDocuments")]
+        public virtual TblUser? User { get; set; }
+    }
+}

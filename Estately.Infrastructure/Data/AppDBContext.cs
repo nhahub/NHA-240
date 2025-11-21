@@ -1,0 +1,320 @@
+﻿namespace Estately.Infrastructure.Data
+{
+
+    public partial class AppDBContext : DbContext
+    {
+        public AppDBContext()
+        {
+        }
+
+        public AppDBContext(DbContextOptions<AppDBContext> options)
+            : base(options) {}
+        public virtual DbSet<LkpAppointmentStatus> LkpAppointmentStatuses { get; set; }
+        public virtual DbSet<LkpDocumentType> LkpDocumentTypes { get; set; }
+        public virtual DbSet<LkpPropertyHistoryType> LkpPropertyHistoryTypes { get; set; }
+        public virtual DbSet<LkpPropertyStatus> LkpPropertyStatuses { get; set; }
+        public virtual DbSet<LkpPropertyType> LkpPropertyTypes { get; set; }
+        public virtual DbSet<LkpUserType> LkpUserTypes { get; set; }
+        public virtual DbSet<TblAppointment> TblAppointments { get; set; }
+        public virtual DbSet<TblBranch> TblBranches { get; set; }
+        public virtual DbSet<TblBranchDepartment> TblBranchDepartments { get; set; }
+        public virtual DbSet<TblCity> TblCities { get; set; }
+        public virtual DbSet<TblClientProfile> TblClientProfiles { get; set; }
+        public virtual DbSet<TblClientPropertyInterest> TblClientPropertyInterests { get; set; }
+        public virtual DbSet<TblDepartment> TblDepartments { get; set; }
+        public virtual DbSet<TblDeveloperProfile> TblDeveloperProfiles { get; set; }
+        public virtual DbSet<TblEmployee> TblEmployees { get; set; }
+        public virtual DbSet<TblEmployeeClient> TblEmployeeClients { get; set; }
+        public virtual DbSet<TblFavorite> TblFavorites { get; set; }
+        public virtual DbSet<TblJobTitle> TblJobTitles { get; set; }
+        public virtual DbSet<TblProperty> TblProperties { get; set; }
+        public virtual DbSet<TblPropertyDocument> TblPropertyDocuments { get; set; }
+        public virtual DbSet<TblPropertyFeature> TblPropertyFeatures { get; set; }
+        public virtual DbSet<TblPropertyFeaturesMapping> TblPropertyFeaturesMappings { get; set; }
+        public virtual DbSet<TblPropertyHistory> TblPropertyHistories { get; set; }
+        public virtual DbSet<TblPropertyImage> TblPropertyImages { get; set; }
+        public virtual DbSet<TblUser> TblUsers { get; set; }
+        public virtual DbSet<TblZone> TblZones { get; set; }
+
+        //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        //        => optionsBuilder.UseSqlServer("Data Source=Belal-2004;Initial Catalog=EstatelyDB;Integrated Security=True");
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<LkpAppointmentStatus>(entity =>
+            {
+                entity.HasKey(e => e.StatusId).HasName("PK_TblAppointmentStatus");
+            });
+
+            modelBuilder.Entity<LkpDocumentType>(entity =>
+            {
+                entity.HasKey(e => e.DocumentTypeID).HasName("PK__TblDocum__DBA390C11FF5415F");
+            });
+
+            modelBuilder.Entity<LkpPropertyHistoryType>(entity =>
+            {
+                entity.HasKey(e => e.HistoryTypeID).HasName("PK__LKPPrope__38069EDD6924C02B");
+            });
+
+            modelBuilder.Entity<LkpPropertyStatus>(entity =>
+            {
+                entity.HasKey(e => e.StatusID).HasName("PK_TblPropertyStatus");
+            });
+
+            modelBuilder.Entity<LkpPropertyType>(entity =>
+            {
+                entity.HasKey(e => e.PropertyTypeID).HasName("PK_TblPropertyTypes");
+            });
+
+            modelBuilder.Entity<LkpUserType>(entity =>
+            {
+                entity.HasKey(e => e.UserTypeID).HasName("PK_TblUserType");
+            });
+
+            modelBuilder.Entity<TblAppointment>(entity =>
+            {
+                entity.HasOne(d => d.Property).WithMany(p => p.TblAppointments)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblAppointments_TblProperties");
+
+                entity.HasOne(d => d.Status).WithOne(p => p.TblAppointment)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblAppointments_TblAppointmentStatus");
+            });
+
+            modelBuilder.Entity<TblBranch>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblBranches_IsDeleted");
+            });
+
+            modelBuilder.Entity<TblBranchDepartment>(entity =>
+            {
+                entity.HasKey(e => e.BranchDepartmentID).HasName("PK__TblBranc__DE88E11B30E5A23E");
+
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblBranchDepartments_IsDeleted");
+
+                entity.HasOne(d => d.Branch).WithMany(p => p.TblBranchDepartments)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TblBranch__Branc__10566F31");
+
+                entity.HasOne(d => d.Department).WithMany(p => p.TblBranchDepartments)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TblBranch__Depar__114A936A");
+            });
+
+            modelBuilder.Entity<TblClientProfile>(entity =>
+            {
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("(getdate())")
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblClientProfiles");
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblClientProfiles_IsDeleted");
+
+                entity.HasOne(d => d.User).WithOne(p => p.TblClientProfile)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblClientProfiles_TblUsers");
+            });
+
+            modelBuilder.Entity<TblClientPropertyInterest>(entity =>
+            {
+                entity.HasOne(d => d.ClientProfile).WithMany(p => p.TblClientPropertyInterests)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblClientPropertyInterests_TblClientProfiles");
+
+                entity.HasOne(d => d.Property).WithMany(p => p.TblClientPropertyInterests)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblClientPropertyInterests_TblProperties");
+            });
+
+            modelBuilder.Entity<TblDepartment>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblDepartments_IsDeleted");
+            });
+
+            modelBuilder.Entity<TblDeveloperProfile>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblDeveloperProfiles_IsDeleted");
+
+                entity.HasOne(d => d.User).WithOne(p => p.TblDeveloperProfile)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblDeveloperProfiles_TblUsers");
+            });
+
+            modelBuilder.Entity<TblEmployee>(entity =>
+            {
+                entity.Property(e => e.HireDate)
+                    .HasDefaultValueSql("(getdate())")
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblEmployees_DateTime");
+                entity.Property(e => e.IsActive)
+                    .HasDefaultValue(true)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblEmployees_isActive");
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblEmployees_IsDeleted");
+
+                entity.HasOne(d => d.BranchDepartment).WithMany(p => p.TblEmployees).HasConstraintName("FK_TblEmployees_TblBranchDepartments");
+
+                entity.HasOne(d => d.JobTitle).WithMany(p => p.TblEmployees)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblEmployees_TblJobTitle");
+
+                entity.HasOne(d => d.ReportsToNavigation).WithMany(p => p.InverseReportsToNavigation).HasConstraintName("FK_TblEmployees_TblEmployees");
+            });
+
+            modelBuilder.Entity<TblEmployeeClient>(entity =>
+            {
+                entity.Property(e => e.AssignmentDate)
+                    .HasDefaultValueSql("(getdate())")
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblEmployeeClients");
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblEmployeeClients_IsDeleted");
+            });
+
+            modelBuilder.Entity<TblFavorite>(entity =>
+            {
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("(getdate())")
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblFavorites");
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblFavorites_IsDeleted");
+            });
+
+            modelBuilder.Entity<TblJobTitle>(entity =>
+            {
+                entity.HasKey(e => e.JobTitleId).HasName("PK_TblJobTitle");
+
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblJobTitles_IsDeleted");
+            });
+
+            modelBuilder.Entity<TblProperty>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblProperties_IsDeleted");
+                entity.Property(e => e.IsFurnished)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblProperties_IsFurnished");
+                entity.Property(e => e.ListingDate)
+                    .HasDefaultValueSql("(getdate())")
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblProperties");
+
+                entity.HasOne(d => d.Agent).WithMany(p => p.TblProperties).HasConstraintName("FK_TblProperties_TblEmployees");
+
+                entity.HasOne(d => d.PropertyType).WithMany(p => p.TblProperties).HasConstraintName("FK_TblProperties_TblPropertyTypes_PropertyTypeID");
+
+                entity.HasOne(d => d.Status).WithMany(p => p.TblProperties)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TblProperties_LkpPropertyStatus");
+            });
+
+            modelBuilder.Entity<TblPropertyDocument>(entity =>
+            {
+                entity.HasKey(e => e.DocumentID).HasName("PK__TblPrope__1ABEEF6F9173FED6");
+
+                entity.Property(e => e.UploadedAt).HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.DocumentType).WithMany(p => p.TblPropertyDocuments)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TblProper__Docum__214BF109");
+
+                entity.HasOne(d => d.Property).WithMany(p => p.TblPropertyDocuments)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TblProper__Prope__1F63A897");
+
+                entity.HasOne(d => d.User).WithMany(p => p.TblPropertyDocuments).HasConstraintName("FK__TblProper__UserI__2057CCD0");
+            });
+
+            modelBuilder.Entity<TblPropertyFeature>(entity =>
+            {
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("(getdate())")
+                    .HasAnnotation("Relational:DefaultConstraintName", "ZF_TblPropertyFeatures");
+                entity.Property(e => e.IsAmenity)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblPropertyFeatures_IsAmenity");
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblPropertyFeatures_IsDeleted");
+            });
+
+            modelBuilder.Entity<TblPropertyFeaturesMapping>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblPropertyFeaturesMapping_IsDeleted");
+            });
+
+            modelBuilder.Entity<TblPropertyHistory>(entity =>
+            {
+                entity.HasKey(e => e.HistoryID).HasName("PK__TblPrope__4D7B4ADDF535279D");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("(getdate())")
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF__TblProper__Creat__16CE6296");
+
+                entity.HasOne(d => d.HistoryType).WithMany(p => p.TblPropertyHistories)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TblProper__Histo__19AACF41");
+
+                entity.HasOne(d => d.Property).WithMany(p => p.TblPropertyHistories)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TblProper__Prope__17C286CF");
+
+                entity.HasOne(d => d.User).WithMany(p => p.TblPropertyHistories).HasConstraintName("FK__TblProper__UserI__18B6AB08");
+            });
+
+            modelBuilder.Entity<TblPropertyImage>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblPropertyImages_IsDeleted");
+            });
+
+            modelBuilder.Entity<TblUser>(entity =>
+            {
+                entity.Property(e => e.IsClient)
+                    .HasDefaultValue(true)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblUsers_IsClient");
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblUsers_IsDeleted");
+                entity.Property(e => e.IsDeveloper)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblUsers_IsDeveloper");
+                entity.Property(e => e.IsEmployee)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblUsers_IsEmployee");
+                entity.Property(e => e.UserTypeID)
+                    .HasDefaultValue(1)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblUsers_UserTypeID");
+
+                entity.HasOne(d => d.UserType).WithMany(p => p.TblUsers).HasConstraintName("FK_TblUsers_TblUserType");
+            });
+
+            modelBuilder.Entity<TblZone>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                    .HasDefaultValue(false)
+                    .HasAnnotation("Relational:DefaultConstraintName", "DF_TblZones_IsDeleted");
+            });
+
+            OnModelCreatingPartial(modelBuilder);
+        }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    }
+}

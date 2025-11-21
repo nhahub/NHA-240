@@ -1,0 +1,29 @@
+﻿namespace Estately.Core.Entities
+{
+
+    [PrimaryKey("PropertyID", "FeatureID")]
+    [Table("TblPropertyFeaturesMapping")]
+    [Index("FeatureID", Name = "IX_TblPropertyFeaturesMapping_FeatureID")]
+    public partial class TblPropertyFeaturesMapping
+    {
+        [Key]
+        public int PropertyID { get; set; }
+
+        [Key]
+        public int FeatureID { get; set; }
+
+        [StringLength(255)]
+        [Unicode(false)]
+        public string? Value { get; set; }
+
+        public bool? IsDeleted { get; set; } = false;
+
+        [ForeignKey("FeatureID")]
+        [InverseProperty("TblPropertyFeaturesMappings")]
+        public virtual TblPropertyFeature? Feature { get; set; }
+
+        [ForeignKey("PropertyID")]
+        [InverseProperty("TblPropertyFeaturesMappings")]
+        public virtual TblProperty? Property { get; set; }
+    }
+}
