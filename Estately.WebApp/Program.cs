@@ -76,6 +76,7 @@ namespace Estately.WebApp
             // Enable session middleware
             app.UseSession();
             
+            app.UseAuthentication(); // Add this line to enable authentication
             app.UseAuthorization();
 
             app.MapStaticAssets();
