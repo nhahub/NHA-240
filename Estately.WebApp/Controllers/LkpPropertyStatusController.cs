@@ -107,7 +107,6 @@ namespace Estately.WebApp.Controllers
             await _service.UpdatePropertyStatusAsync(model);
             return RedirectToAction(nameof(Index));
         }
-
         // =======================================================
         // DELETE
         // =======================================================
