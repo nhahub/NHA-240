@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace Estately.WebApp
 {
     public class Program
@@ -7,6 +9,16 @@ namespace Estately.WebApp
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            // Add services to the container. 
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            builder.Services.AddDbContext<AppDBContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AppDBContext>();
+
+            builder.Services.AddControllersWithViews();
+
             //builder.Services.AddControllersWithViews();
             builder.Services.AddControllersWithViews().AddJsonOptions(options =>
             {
@@ -14,8 +26,8 @@ namespace Estately.WebApp
             });
 
             //Add Context with Connection 
-            builder.Services.AddDbContext<AppDBContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            //builder.Services.AddDbContext<AppDBContext>(options =>
+            //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -67,6 +79,7 @@ namespace Estately.WebApp
             // Enable session middleware
             app.UseSession();
             
+            app.UseAuthentication(); // Ensure authentication is used
             app.UseAuthorization();
 
             app.MapStaticAssets();
