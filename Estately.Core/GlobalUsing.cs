@@ -8,3 +8,4 @@ global using System.Threading.Tasks;
 global using System.Linq;
 global using System.Linq.Expressions;
 global using Estately.Core.Entities;
+global using Microsoft.AspNetCore.Identity;
