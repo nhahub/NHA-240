@@ -14,8 +14,6 @@ namespace Estately.WebApp.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-
-
         // ============================================
         // DASHBOARD
         // ============================================
