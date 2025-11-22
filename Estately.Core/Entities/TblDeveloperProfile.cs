@@ -36,6 +36,7 @@ public partial class TblDeveloperProfile
     public virtual ICollection<TblProperty> TblProperties { get; set; } = new List<TblProperty>();
 
     [ForeignKey("UserID")]
-    [InverseProperty("TblDeveloperProfile")]
-    public virtual TblUser User { get; set; }
+    [InverseProperty(nameof(ApplicationUser.DeveloperProfile))]
+    public virtual ApplicationUser User { get; set; }
+
 }

@@ -6,3 +6,5 @@ global using Estately.Infrastructure.Repository;
 global using Estately.Infrastructure.UnitOfWorks;
 global using Estately.Services.Interfaces;
 global using Estately.Services.ViewModels;
+global using Estately.Core.Entities.Identity;
+global using Microsoft.AspNetCore.Identity;

@@ -1,3 +1,4 @@
+using Estately.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace Estately.WebApp
@@ -13,8 +14,13 @@ namespace Estately.WebApp
             builder.Services.AddDbContext<AppDBContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AppDBContext>();
+            // Use custom ApplicationUser/ApplicationRole with int keys
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+                .AddEntityFrameworkStores<AppDBContext>()
+                .AddDefaultTokenProviders();
 
             //builder.Services.AddControllersWithViews();
             builder.Services.AddControllersWithViews().AddJsonOptions(options =>
@@ -27,9 +33,10 @@ namespace Estately.WebApp
             //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            // register repositories & unitofwork
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddScoped<IServiceUser, ServiceUser>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IServiceProperty, ServiceProperty>();
             builder.Services.AddScoped<IServiceZone, ServiceZone>();
             builder.Services.AddScoped<IServiceUserType, ServiceUserType>();

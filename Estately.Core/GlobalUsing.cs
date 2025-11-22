@@ -9,3 +9,4 @@ global using System.Linq;
 global using System.Linq.Expressions;
 global using Estately.Core.Entities;
 global using Microsoft.AspNetCore.Identity;
+global using Estately.Core.Entities.Identity;

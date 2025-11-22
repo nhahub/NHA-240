@@ -23,7 +23,7 @@ namespace Estately.WebApp.Controllers
         {
             var stats = new
             {
-                TotalUsers = (await _unitOfWork.UserRepository.ReadAllAsync()).Count(),
+                //TotalUsers = (await _unitOfWork.UserRepository.ReadAllAsync()).Count(),
                 TotalProperties = (await _unitOfWork.PropertyRepository.ReadAllAsync()).Count(),
                 TotalAppointments = (await _unitOfWork.AppointmentRepository.ReadAllAsync()).Count(),
                 TotalEmployees = (await _unitOfWork.EmployeeRepository.ReadAllAsync()).Count(),

@@ -76,7 +76,8 @@ public partial class TblEmployee
     [InverseProperty("Agent")]
     public virtual ICollection<TblProperty> TblProperties { get; set; } = new List<TblProperty>();
 
-    [ForeignKey("UserID")]
-    [InverseProperty("TblEmployee")]
-    public virtual TblUser User { get; set; }
+    [ForeignKey(nameof(UserID))]
+    [InverseProperty(nameof(ApplicationUser.EmployeeProfile))]
+    public virtual ApplicationUser User { get; set; }
+
 }

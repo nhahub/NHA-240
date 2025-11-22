@@ -38,6 +38,7 @@ public partial class TblPropertyHistory
     public virtual TblProperty Property { get; set; }
 
     [ForeignKey("UserID")]
-    [InverseProperty("TblPropertyHistories")]
-    public virtual TblUser User { get; set; }
+    [InverseProperty(nameof(ApplicationUser.PropertyHistories))]
+    public virtual ApplicationUser User { get; set; }
+
 }
