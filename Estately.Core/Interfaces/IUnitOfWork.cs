@@ -25,7 +25,6 @@
         IRepository<LkpPropertyStatus> PropertyStatusRepository { get; }
         IRepository<LkpPropertyHistoryType> PropertyHistoryTypeRepository { get; }
         IRepository<LkpPropertyType> PropertyTypeRepository { get; }
-        IRepository<TblUser> UserRepository { get; }
         IRepository<LkpUserType> UserTypeRepository { get; }
         IRepository<TblZone> ZoneRepository { get; }
         Task<int> CompleteAsync();

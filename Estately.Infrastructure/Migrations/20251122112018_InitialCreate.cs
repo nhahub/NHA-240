@@ -814,176 +814,176 @@ namespace Estately.Infrastructure.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblAppointments",
-        //        table: "TblAppointments",
-        //        column: "StatusID",
-        //        unique: true);
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblAppointments",
+            //        table: "TblAppointments",
+            //        column: "StatusID",
+            //        unique: true);
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblAppointments_EmployeeClientID",
-        //        table: "TblAppointments",
-        //        column: "EmployeeClientID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblAppointments_EmployeeClientID",
+            //        table: "TblAppointments",
+            //        column: "EmployeeClientID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblAppointments_PropertyID",
-        //        table: "TblAppointments",
-        //        column: "PropertyID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblAppointments_PropertyID",
+            //        table: "TblAppointments",
+            //        column: "PropertyID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblBranchDepartments_BranchID",
-        //        table: "TblBranchDepartments",
-        //        column: "BranchID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblBranchDepartments_BranchID",
+            //        table: "TblBranchDepartments",
+            //        column: "BranchID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblBranchDepartments_DepartmentID",
-        //        table: "TblBranchDepartments",
-        //        column: "DepartmentID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblBranchDepartments_DepartmentID",
+            //        table: "TblBranchDepartments",
+            //        column: "DepartmentID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblClientProfiles",
-        //        table: "TblClientProfiles",
-        //        column: "UserID",
-        //        unique: true);
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblClientProfiles",
+            //        table: "TblClientProfiles",
+            //        column: "UserID",
+            //        unique: true);
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblClientPropertyInterests_ClientProfileId",
-        //        table: "TblClientPropertyInterests",
-        //        column: "ClientProfileId");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblClientPropertyInterests_ClientProfileId",
+            //        table: "TblClientPropertyInterests",
+            //        column: "ClientProfileId");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblClientPropertyInterests_PropertyId",
-        //        table: "TblClientPropertyInterests",
-        //        column: "PropertyId");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblClientPropertyInterests_PropertyId",
+            //        table: "TblClientPropertyInterests",
+            //        column: "PropertyId");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblDeveloperProfiles",
-        //        table: "TblDeveloperProfiles",
-        //        column: "UserID",
-        //        unique: true);
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblDeveloperProfiles",
+            //        table: "TblDeveloperProfiles",
+            //        column: "UserID",
+            //        unique: true);
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblEmployeeClients_ClientProfileID",
-        //        table: "TblEmployeeClients",
-        //        column: "ClientProfileID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblEmployeeClients_ClientProfileID",
+            //        table: "TblEmployeeClients",
+            //        column: "ClientProfileID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblEmployeeClients_EmployeeID",
-        //        table: "TblEmployeeClients",
-        //        column: "EmployeeID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblEmployeeClients_EmployeeID",
+            //        table: "TblEmployeeClients",
+            //        column: "EmployeeID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblEmployees",
-        //        table: "TblEmployees",
-        //        column: "UserID",
-        //        unique: true);
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblEmployees",
+            //        table: "TblEmployees",
+            //        column: "UserID",
+            //        unique: true);
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblEmployees_BranchDepartmentId",
-        //        table: "TblEmployees",
-        //        column: "BranchDepartmentId");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblEmployees_BranchDepartmentId",
+            //        table: "TblEmployees",
+            //        column: "BranchDepartmentId");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblEmployees_JobTitleId",
-        //        table: "TblEmployees",
-        //        column: "JobTitleId");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblEmployees_JobTitleId",
+            //        table: "TblEmployees",
+            //        column: "JobTitleId");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblEmployees_ReportsTo",
-        //        table: "TblEmployees",
-        //        column: "ReportsTo");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblEmployees_ReportsTo",
+            //        table: "TblEmployees",
+            //        column: "ReportsTo");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblFavorites_ClientProfileID",
-        //        table: "TblFavorites",
-        //        column: "ClientProfileID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblFavorites_ClientProfileID",
+            //        table: "TblFavorites",
+            //        column: "ClientProfileID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblFavorites_PropertyID",
-        //        table: "TblFavorites",
-        //        column: "PropertyID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblFavorites_PropertyID",
+            //        table: "TblFavorites",
+            //        column: "PropertyID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblProperties_1",
-        //        table: "TblProperties",
-        //        column: "PropertyCode",
-        //        unique: true,
-        //        filter: "[PropertyCode] IS NOT NULL");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblProperties_1",
+            //        table: "TblProperties",
+            //        column: "PropertyCode",
+            //        unique: true,
+            //        filter: "[PropertyCode] IS NOT NULL");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblProperties_AgentId",
-        //        table: "TblProperties",
-        //        column: "AgentId");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblProperties_AgentId",
+            //        table: "TblProperties",
+            //        column: "AgentId");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblProperties_DeveloperProfileID",
-        //        table: "TblProperties",
-        //        column: "DeveloperProfileID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblProperties_DeveloperProfileID",
+            //        table: "TblProperties",
+            //        column: "DeveloperProfileID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblProperties_PropertyTypeID",
-        //        table: "TblProperties",
-        //        column: "PropertyTypeID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblProperties_PropertyTypeID",
+            //        table: "TblProperties",
+            //        column: "PropertyTypeID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblProperties_StatusId",
-        //        table: "TblProperties",
-        //        column: "StatusId");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblProperties_StatusId",
+            //        table: "TblProperties",
+            //        column: "StatusId");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblProperties_ZoneID",
-        //        table: "TblProperties",
-        //        column: "ZoneID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblProperties_ZoneID",
+            //        table: "TblProperties",
+            //        column: "ZoneID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblPropertyDocuments_DocumentTypeID",
-        //        table: "TblPropertyDocuments",
-        //        column: "DocumentTypeID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblPropertyDocuments_DocumentTypeID",
+            //        table: "TblPropertyDocuments",
+            //        column: "DocumentTypeID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblPropertyDocuments_PropertyID",
-        //        table: "TblPropertyDocuments",
-        //        column: "PropertyID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblPropertyDocuments_PropertyID",
+            //        table: "TblPropertyDocuments",
+            //        column: "PropertyID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblPropertyDocuments_UserID",
-        //        table: "TblPropertyDocuments",
-        //        column: "UserID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblPropertyDocuments_UserID",
+            //        table: "TblPropertyDocuments",
+            //        column: "UserID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblPropertyFeaturesMapping_FeatureID",
-        //        table: "TblPropertyFeaturesMapping",
-        //        column: "FeatureID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblPropertyFeaturesMapping_FeatureID",
+            //        table: "TblPropertyFeaturesMapping",
+            //        column: "FeatureID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblPropertyHistory_HistoryTypeID",
-        //        table: "TblPropertyHistory",
-        //        column: "HistoryTypeID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblPropertyHistory_HistoryTypeID",
+            //        table: "TblPropertyHistory",
+            //        column: "HistoryTypeID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblPropertyHistory_PropertyID",
-        //        table: "TblPropertyHistory",
-        //        column: "PropertyID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblPropertyHistory_PropertyID",
+            //        table: "TblPropertyHistory",
+            //        column: "PropertyID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblPropertyHistory_UserID",
-        //        table: "TblPropertyHistory",
-        //        column: "UserID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblPropertyHistory_UserID",
+            //        table: "TblPropertyHistory",
+            //        column: "UserID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblPropertyImages_PropertyID",
-        //        table: "TblPropertyImages",
-        //        column: "PropertyID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblPropertyImages_PropertyID",
+            //        table: "TblPropertyImages",
+            //        column: "PropertyID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblUsers_UserTypeID",
-        //        table: "TblUsers",
-        //        column: "UserTypeID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblUsers_UserTypeID",
+            //        table: "TblUsers",
+            //        column: "UserTypeID");
 
-        //    migrationBuilder.CreateIndex(
-        //        name: "IX_TblZones_CityID",
-        //        table: "TblZones",
-        //        column: "CityID");
+            //    migrationBuilder.CreateIndex(
+            //        name: "IX_TblZones_CityID",
+            //        table: "TblZones",
+            //        column: "CityID");
         }
 
         /// <inheritdoc />

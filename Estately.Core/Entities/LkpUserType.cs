@@ -12,9 +12,6 @@
 
         [StringLength(500)]
         public string? Description { get; set; }
-
-        [InverseProperty("UserType")]
-        public virtual ICollection<TblUser>? TblUsers { get; set; } = new List<TblUser>();
     }
 }
 #nullable restore

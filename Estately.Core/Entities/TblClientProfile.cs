@@ -39,9 +39,5 @@
 
         [InverseProperty("ClientProfile")]
         public virtual ICollection<TblFavorite>? TblFavorites { get; set; } = new List<TblFavorite>();
-
-        [ForeignKey("UserID")]
-        [InverseProperty("TblClientProfile")]
-        public virtual TblUser? User { get; set; }
     }
 }

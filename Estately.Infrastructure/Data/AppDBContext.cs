@@ -59,8 +59,6 @@ namespace Estately.Infrastructure.Data
 
         public virtual DbSet<TblPropertyImage> TblPropertyImages { get; set; }
 
-        public virtual DbSet<TblUser> TblUsers { get; set; }
-
         public virtual DbSet<TblZone> TblZones { get; set; }
 
         //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

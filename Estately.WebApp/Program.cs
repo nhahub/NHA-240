@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 
+using Estately.Core.Entities;
+
 namespace Estately.WebApp
 {
     public class Program
@@ -32,7 +34,6 @@ namespace Estately.WebApp
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddScoped<IServiceUser, ServiceUser>();
             builder.Services.AddScoped<IServiceProperty, ServiceProperty>();
             builder.Services.AddScoped<IServiceZone, ServiceZone>();
             builder.Services.AddScoped<IServiceUserType, ServiceUserType>();

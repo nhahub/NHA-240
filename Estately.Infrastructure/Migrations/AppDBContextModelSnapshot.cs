@@ -99,10 +99,13 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("StatusName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("StatusId");
 
@@ -118,10 +121,13 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentTypeID"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("DocumentTypeID");
 
@@ -137,10 +143,13 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistoryTypeID"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("HistoryTypeID");
 
@@ -156,10 +165,13 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusID"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("StatusName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("StatusID");
 
@@ -175,10 +187,13 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PropertyTypeID"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("TypeName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("PropertyTypeID");
 
@@ -194,10 +209,13 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserTypeID"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("UserTypeName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("UserTypeID");
 
@@ -213,13 +231,13 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentID"));
 
                     b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("EmployeeClientID")
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("PropertyID")
                         .HasColumnType("int");
@@ -248,16 +266,24 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BranchID"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("BranchName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ManagerName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("BranchID");
 
@@ -276,7 +302,7 @@ namespace Estately.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("DepartmentID")
                         .HasColumnType("int");
@@ -299,7 +325,10 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityID"));
 
                     b.Property<string>("CityName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("CityID");
 
@@ -315,22 +344,28 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientProfileID"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("ProfilePhoto")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
@@ -355,10 +390,11 @@ namespace Estately.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("InterestDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.Property<int>("PropertyId")
                         .HasColumnType("int");
@@ -381,19 +417,26 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentID"));
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("DepartmentName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ManagerName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("DepartmentID");
 
@@ -409,25 +452,32 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DeveloperProfileID"));
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("DeveloperName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DeveloperTitle")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PortofolioPhoto")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(800)");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.Property<string>("WebsiteURL")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(800)");
 
                     b.HasKey("DeveloperProfileID");
 
@@ -452,34 +502,45 @@ namespace Estately.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("HireDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("JobTitleId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Nationalid")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ProfilePhoto")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.Property<int?>("ReportsTo")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
@@ -507,7 +568,7 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeClientID"));
 
                     b.Property<DateTime?>("AssignmentDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("ClientProfileID")
                         .HasColumnType("int");
@@ -559,10 +620,13 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JobTitleId"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("JobTitleName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("JobTitleId");
 
@@ -578,13 +642,15 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PropertyID"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("AgentId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Area")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10, 2)");
 
                     b.Property<int>("BathsNo")
                         .HasColumnType("int");
@@ -593,13 +659,14 @@ namespace Estately.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("DeveloperProfileID")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("ExpectedRentPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10, 2)");
 
                     b.Property<int?>("FloorNo")
                         .HasColumnType("int");
@@ -608,19 +675,21 @@ namespace Estately.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Latitude")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(9, 6)");
 
                     b.Property<DateTime?>("ListingDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<decimal>("Longitude")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(9, 6)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10, 2)");
 
                     b.Property<string>("PropertyCode")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("PropertyTypeID")
                         .HasColumnType("int");
@@ -641,8 +710,7 @@ namespace Estately.Infrastructure.Migrations
                     b.HasIndex("StatusId");
 
                     b.HasIndex(new[] { "PropertyCode" }, "IX_TblProperties_1")
-                        .IsUnique()
-                        .HasFilter("[PropertyCode] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex(new[] { "DeveloperProfileID" }, "IX_TblProperties_DeveloperProfileID");
 
@@ -665,16 +733,19 @@ namespace Estately.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FilePath")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("PropertyID")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UploadedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<int?>("UserID")
                         .HasColumnType("int");
@@ -684,8 +755,6 @@ namespace Estately.Infrastructure.Migrations
                     b.HasIndex("DocumentTypeID");
 
                     b.HasIndex("PropertyID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("TblPropertyDocuments");
                 });
@@ -699,13 +768,17 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeatureID"));
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(800)
+                        .HasColumnType("nvarchar(800)");
 
                     b.Property<string>("FeatureName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool?>("IsAmenity")
                         .HasColumnType("bit");
@@ -724,7 +797,9 @@ namespace Estately.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("PropertyID", "FeatureID");
 
@@ -742,19 +817,22 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistoryID"));
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<int>("HistoryTypeID")
                         .HasColumnType("int");
 
                     b.Property<string>("NewValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("OldValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("PropertyID")
                         .HasColumnType("int");
@@ -768,8 +846,6 @@ namespace Estately.Infrastructure.Migrations
 
                     b.HasIndex("PropertyID");
 
-                    b.HasIndex("UserID");
-
                     b.ToTable("TblPropertyHistory");
                 });
 
@@ -782,49 +858,22 @@ namespace Estately.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageID"));
 
                     b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("PropertyID")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UploadedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.HasKey("ImageID");
 
                     b.HasIndex(new[] { "PropertyID" }, "IX_TblPropertyImages_PropertyID");
 
                     b.ToTable("TblPropertyImages");
-                });
-
-            modelBuilder.Entity("Estately.Core.Entities.TblUser", b =>
-                {
-                    b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UserTypeID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserID");
-
-                    b.HasIndex(new[] { "UserTypeID" }, "IX_TblUsers_UserTypeID");
-
-                    b.ToTable("TblUsers");
                 });
 
             modelBuilder.Entity("Estately.Core.Entities.TblZone", b =>
@@ -839,7 +888,10 @@ namespace Estately.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ZoneName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("ZoneID");
 
@@ -1031,17 +1083,6 @@ namespace Estately.Infrastructure.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("Estately.Core.Entities.TblClientProfile", b =>
-                {
-                    b.HasOne("Estately.Core.Entities.TblUser", "User")
-                        .WithOne("TblClientProfile")
-                        .HasForeignKey("Estately.Core.Entities.TblClientProfile", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Estately.Core.Entities.TblClientPropertyInterest", b =>
                 {
                     b.HasOne("Estately.Core.Entities.TblClientProfile", "ClientProfile")
@@ -1061,17 +1102,6 @@ namespace Estately.Infrastructure.Migrations
                     b.Navigation("Property");
                 });
 
-            modelBuilder.Entity("Estately.Core.Entities.TblDeveloperProfile", b =>
-                {
-                    b.HasOne("Estately.Core.Entities.TblUser", "User")
-                        .WithOne("TblDeveloperProfile")
-                        .HasForeignKey("Estately.Core.Entities.TblDeveloperProfile", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Estately.Core.Entities.TblEmployee", b =>
                 {
                     b.HasOne("Estately.Core.Entities.TblBranchDepartment", "BranchDepartment")
@@ -1088,19 +1118,11 @@ namespace Estately.Infrastructure.Migrations
                         .WithMany("InverseReportsToNavigation")
                         .HasForeignKey("ReportsTo");
 
-                    b.HasOne("Estately.Core.Entities.TblUser", "User")
-                        .WithOne("TblEmployee")
-                        .HasForeignKey("Estately.Core.Entities.TblEmployee", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("BranchDepartment");
 
                     b.Navigation("JobTitle");
 
                     b.Navigation("ReportsToNavigation");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Estately.Core.Entities.TblEmployeeClient", b =>
@@ -1192,15 +1214,9 @@ namespace Estately.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Estately.Core.Entities.TblUser", "User")
-                        .WithMany("TblPropertyDocuments")
-                        .HasForeignKey("UserID");
-
                     b.Navigation("DocumentType");
 
                     b.Navigation("Property");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Estately.Core.Entities.TblPropertyFeaturesMapping", b =>
@@ -1236,15 +1252,9 @@ namespace Estately.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Estately.Core.Entities.TblUser", "User")
-                        .WithMany("TblPropertyHistories")
-                        .HasForeignKey("UserID");
-
                     b.Navigation("HistoryType");
 
                     b.Navigation("Property");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Estately.Core.Entities.TblPropertyImage", b =>
@@ -1256,15 +1266,6 @@ namespace Estately.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Property");
-                });
-
-            modelBuilder.Entity("Estately.Core.Entities.TblUser", b =>
-                {
-                    b.HasOne("Estately.Core.Entities.LkpUserType", "UserType")
-                        .WithMany("TblUsers")
-                        .HasForeignKey("UserTypeID");
-
-                    b.Navigation("UserType");
                 });
 
             modelBuilder.Entity("Estately.Core.Entities.TblZone", b =>
@@ -1331,7 +1332,8 @@ namespace Estately.Infrastructure.Migrations
 
             modelBuilder.Entity("Estately.Core.Entities.LkpAppointmentStatus", b =>
                 {
-                    b.Navigation("TblAppointment");
+                    b.Navigation("TblAppointment")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Estately.Core.Entities.LkpDocumentType", b =>
@@ -1352,11 +1354,6 @@ namespace Estately.Infrastructure.Migrations
             modelBuilder.Entity("Estately.Core.Entities.LkpPropertyType", b =>
                 {
                     b.Navigation("TblProperties");
-                });
-
-            modelBuilder.Entity("Estately.Core.Entities.LkpUserType", b =>
-                {
-                    b.Navigation("TblUsers");
                 });
 
             modelBuilder.Entity("Estately.Core.Entities.TblBranch", b =>
@@ -1432,19 +1429,6 @@ namespace Estately.Infrastructure.Migrations
             modelBuilder.Entity("Estately.Core.Entities.TblPropertyFeature", b =>
                 {
                     b.Navigation("TblPropertyFeaturesMappings");
-                });
-
-            modelBuilder.Entity("Estately.Core.Entities.TblUser", b =>
-                {
-                    b.Navigation("TblClientProfile");
-
-                    b.Navigation("TblDeveloperProfile");
-
-                    b.Navigation("TblEmployee");
-
-                    b.Navigation("TblPropertyDocuments");
-
-                    b.Navigation("TblPropertyHistories");
                 });
 
             modelBuilder.Entity("Estately.Core.Entities.TblZone", b =>

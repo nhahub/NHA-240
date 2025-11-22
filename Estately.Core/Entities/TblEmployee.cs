@@ -75,9 +75,5 @@
 
         [InverseProperty("Agent")]
         public virtual ICollection<TblProperty> TblProperties { get; set; } = new List<TblProperty>();
-
-        [ForeignKey("UserID")]
-        [InverseProperty("TblEmployee")]
-        public virtual TblUser User { get; set; }
     }
 }

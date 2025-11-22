@@ -36,9 +36,5 @@
 
         [InverseProperty("DeveloperProfile")]
         public virtual ICollection<TblProperty> TblProperties { get; set; } = new List<TblProperty>();
-
-        [ForeignKey("UserID")]
-        [InverseProperty("TblDeveloperProfile")]
-        public virtual TblUser User { get; set; }
     }
 }

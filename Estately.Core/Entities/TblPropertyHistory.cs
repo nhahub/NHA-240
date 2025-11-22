@@ -31,9 +31,5 @@
         [ForeignKey("PropertyID")]
         [InverseProperty("TblPropertyHistories")]
         public virtual TblProperty Property { get; set; }
-
-        [ForeignKey("UserID")]
-        [InverseProperty("TblPropertyHistories")]
-        public virtual TblUser User { get; set; }
     }
 }
