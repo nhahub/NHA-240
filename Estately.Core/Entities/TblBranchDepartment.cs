@@ -1,30 +1,28 @@
-﻿namespace Estately.Core.Entities
+﻿namespace Estately.Core.Entities;
+
+public partial class TblBranchDepartment
 {
-    public  class TblBranchDepartment
+    public TblBranchDepartment()
     {
-        public TblBranchDepartment()
-        {
-            CreatedAt ??= DateTime.Now;
-        }
-
-        [Key]
-        public int BranchDepartmentID { get; set; }
-
-        public int BranchID { get; set; }
-
-        public int DepartmentID { get; set; }
-
-        [Column(TypeName = "datetime")]
-        public DateTime? CreatedAt { get; set; }
-        [ForeignKey("BranchID")]
-        [InverseProperty("TblBranchDepartments")]
-        public virtual TblBranch? Branch { get; set; }
-
-        [ForeignKey("DepartmentID")]
-        [InverseProperty("TblBranchDepartments")]
-        public virtual TblDepartment? Department { get; set; }
-
-        [InverseProperty("BranchDepartment")]
-        public virtual ICollection<TblEmployee>? TblEmployees { get; set; } = new List<TblEmployee>();
+        CreatedAt ??= DateTime.Now;
     }
+    [Key]
+    public int BranchDepartmentID { get; set; }
+
+    public int BranchID { get; set; }
+
+    public int DepartmentID { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? CreatedAt { get; set; }
+    [ForeignKey("BranchID")]
+    [InverseProperty("TblBranchDepartments")]
+    public virtual TblBranch? Branch { get; set; }
+
+    [ForeignKey("DepartmentID")]
+    [InverseProperty("TblBranchDepartments")]
+    public virtual TblDepartment? Department { get; set; }
+
+    [InverseProperty("BranchDepartment")]
+    public virtual ICollection<TblEmployee>? TblEmployees { get; set; } = new List<TblEmployee>();
 }

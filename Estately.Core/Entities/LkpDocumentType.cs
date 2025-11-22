@@ -1,10 +1,9 @@
-﻿namespace Estately.Core.Entities
+﻿namespace Estately.Core.Entities;
+
+public partial class LkpDocumentType
 {
-    [Table("LkpDocumentType")]
-    public class LkpDocumentType
-    {
-        [Key]
-        public int DocumentTypeID { get; set; }
+    [Key]
+    public int DocumentTypeID { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -16,4 +15,3 @@
         [InverseProperty("DocumentType")]
         public virtual ICollection<TblPropertyDocument>? TblPropertyDocuments { get; set; } = new List<TblPropertyDocument>();
     }
-}

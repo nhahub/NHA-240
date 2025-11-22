@@ -3,19 +3,16 @@ using Estately.Core.Interfaces;
 using Estately.Services.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Identity;
 
 namespace Estately.WebApp.Controllers
 {
     public class AdminController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AdminController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
+        public AdminController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _userManager = userManager;
         }
 
 
@@ -26,7 +23,7 @@ namespace Estately.WebApp.Controllers
         {
             var stats = new
             {
-                TotalUsers = await _userManager.Users.CountAsync(),
+                TotalUsers = (await _unitOfWork.UserRepository.ReadAllAsync()).Count(),
                 TotalProperties = (await _unitOfWork.PropertyRepository.ReadAllAsync()).Count(),
                 TotalAppointments = (await _unitOfWork.AppointmentRepository.ReadAllAsync()).Count(),
                 TotalEmployees = (await _unitOfWork.EmployeeRepository.ReadAllAsync()).Count(),

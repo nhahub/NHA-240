@@ -102,10 +102,17 @@ namespace Estately.Services.Implementations
             var userType = await _unitOfWork.UserTypeRepository.GetByIdAsync(id);
             if (userType == null) return;
 
+            // Check if there are users associated with this user type
+            var usersWithThisType = await _unitOfWork.UserRepository.Search(u => u.UserTypeID == id);
+
+            if (usersWithThisType.Any())
+            {
+                throw new InvalidOperationException(
+                    $"Cannot delete user type. There are {usersWithThisType.Count()} users associated with this type.");
+            }
             await _unitOfWork.UserTypeRepository.DeleteAsync(id);
             await _unitOfWork.CompleteAsync();
         }
-
         // ====================================================
         // 6. USER TYPE COUNTER (STATS)
         // ====================================================

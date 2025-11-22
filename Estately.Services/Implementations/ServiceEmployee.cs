@@ -18,7 +18,8 @@
                 "JobTitle",
                 "BranchDepartment",
                 "BranchDepartment.Branch",
-                "BranchDepartment.Department"
+                "BranchDepartment.Department",
+                "User"
             );
 
             var query = employees.AsQueryable();
@@ -59,7 +60,8 @@
                 "JobTitle",
                 "BranchDepartment",
                 "BranchDepartment.Branch",
-                "BranchDepartment.Department"
+                "BranchDepartment.Department",
+                "User"
             );
 
             return new EmployeesListViewModel
@@ -158,6 +160,7 @@
                 JobTitleId = e.JobTitleId,
                 BranchDepartmentId = e.BranchDepartmentId,
                 ReportsTo = e.ReportsTo,
+                Email = e.User?.Email,
 
                 JobTitleName = e.JobTitle?.JobTitleName ?? "",
                 BranchName = e.BranchDepartment?.Branch?.BranchName ?? "",

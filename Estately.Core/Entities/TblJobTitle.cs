@@ -1,17 +1,17 @@
-﻿namespace Estately.Core.Entities
+﻿namespace Estately.Core.Entities;
+
+public partial class TblJobTitle
 {
-    public class TblJobTitle
-    {
-        [Key]
-        public int JobTitleId { get; set; }
-        [Required]
-        [StringLength(255)]
-        public string JobTitleName { get; set; }
+    [Key]
+    public int JobTitleId { get; set; }
 
-        [StringLength(255)]
-        public string? Description { get; set; }
+    [Required]
+    [StringLength(255)]
+    public string JobTitleName { get; set; }
 
-        [InverseProperty("JobTitle")]
-        public virtual ICollection<TblEmployee> TblEmployees { get; set; } = new List<TblEmployee>();
-    }
+    [StringLength(255)]
+    public string? Description { get; set; }
+
+    [InverseProperty("JobTitle")]
+    public virtual ICollection<TblEmployee> TblEmployees { get; set; } = new List<TblEmployee>();
 }

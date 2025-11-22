@@ -1,18 +1,17 @@
-﻿namespace Estately.Core.Entities
+﻿namespace Estately.Core.Entities;
+
+public partial class LkpPropertyHistoryType
 {
-    public class LkpPropertyHistoryType
-    {
-        [Key]
-        public int HistoryTypeID { get; set; }
+    [Key]
+    public int HistoryTypeID { get; set; }
 
-        [Required]
-        [StringLength(255)]
-        public string Name { get; set; }
+    [Required]
+    [StringLength(255)]
+    public string Name { get; set; }
 
-        [StringLength(255)]
-        public string? Description { get; set; }
+    [StringLength(255)]
+    public string? Description { get; set; }
 
-        [InverseProperty("HistoryType")]
-        public virtual ICollection<TblPropertyHistory>? TblPropertyHistories { get; set; } = new List<TblPropertyHistory>();
-    }
+    [InverseProperty("HistoryType")]
+    public virtual ICollection<TblPropertyHistory>? TblPropertyHistories { get; set; } = new List<TblPropertyHistory>();
 }
