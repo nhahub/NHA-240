@@ -32,6 +32,7 @@
             width: 250px;
             z-index: 1000;
             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto !important; /* allow menu to scroll if it is taller than the viewport */
         }
         .admin-sidebar .logo {
             padding: 20px;
@@ -242,18 +243,16 @@
         <div class="logo">Estately Admin</div>
         <nav class="nav flex-column">
             <a class="nav-link @(currentController == "Admin" ? "active" : "")" asp-controller="Admin" asp-action="Dashboard">
-                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                <i class="fa-solid fa-chart-column me-2"></i> Dashboard
             </a>
-            <a class="nav-link @(currentController == "TblUsers" ? "active" : "")" asp-controller="TblUsers" asp-action="Index">
+            <a class="nav-link @(currentController == "ApplicationUsers" ? "active" : "")" asp-controller="ApplicationUsers" asp-action="Index">
                 <i class="bi bi-people me-2"></i> Users
             </a>
             <a class="nav-link @(currentController == "TblProperties" ? "active" : "")" asp-controller="TblProperties" asp-action="Index">
                 <i class="bi bi-house-door me-2"></i> Properties
             </a>
-            <!-- In your _AdminLayout.cshtml sidebar -->
-            <a asp-controller="TblAppointments" asp-action="Index" class="nav-link">
-                <i class="bi bi-calendar-check"></i>
-                <span>Appointments</span>
+            <a class="nav-link @(currentController == "TblAppointments" ? "active" : "")" asp-controller="TblAppointments" asp-action="Index">
+                <i class="bi bi-calendar-check me-2"></i> Appointments
             </a>
             <a class="nav-link @(currentController == "TblEmployees" ? "active" : "")" asp-controller="TblEmployees" asp-action="Index">
                 <i class="bi bi-briefcase me-2"></i> Employees
@@ -264,22 +263,22 @@
             <a class="nav-link @(currentController == "TblDepartments" ? "active" : "")" asp-controller="TblDepartments" asp-action="Index">
                 <i class="bi bi-diagram-3 me-2"></i> Departments
             </a>
-            <a class="nav-link @(currentController == "TblCities" ? "active" : "")"
-               asp-controller="TblCities" asp-action="Index">
-                <i class="bi bi-building me-2"></i> Cities
+            <a class="nav-link @(currentController == "TblCities" ? "active" : "")" asp-controller="TblCities" asp-action="Index">
+                <i class="fa-solid fa-earth-americas me-2"></i> Cities
             </a>
             <a class="nav-link @(currentController == "TblZones" ? "active" : "")" asp-controller="TblZones" asp-action="Index">
-                <i class="bi bi-pin-map me-2"></i> Zones
+                <i class="fa-solid fa-location-dot me-2"></i> Zones
             </a>
-            <a class="nav-link @(currentController == "LkpPropertyTypes" ? "active" : "")"
-               asp-controller="LkpPropertyTypes" asp-action="Index">
+            <a class="nav-link @(currentController == "LkpPropertyTypes" ? "active" : "")" asp-controller="LkpPropertyTypes" asp-action="Index">
                 <i class="bi bi-tags me-2"></i> Property Types
             </a>
             <a class="nav-link @(currentController == "LkpPropertyStatus" ? "active" : "")" asp-action="Index" asp-controller="LkpPropertyStatus">
                 <i class="bi bi-info-circle me-2"></i> Property Statuses
             </a>
-            <a class="nav-link @(currentController == "LkpUserTypes" ? "active" : "")"
-               asp-controller="LkpUserTypes" asp-action="Index">
+            <a class="nav-link @(currentController == "TblPropertyFeatures" ? "active" : "")" asp-controller="TblPropertyFeatures" asp-action="Index">
+                <i class="fa-regular fa-circle-check me-2"></i> Property Features
+            </a>
+            <a class="nav-link @(currentController == "LkpUserTypes" ? "active" : "")" asp-controller="LkpUserTypes" asp-action="Index">
                 <i class="bi bi-person-badge me-2"></i> User Types
             </a>
         </nav>

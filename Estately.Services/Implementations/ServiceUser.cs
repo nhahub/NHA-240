@@ -1,172 +1,239 @@
-﻿using System.Linq.Expressions;
+using Estately.Core.Entities.Identity;
+using Estately.Core.Entities;
+using Estately.Core.Interfaces;
+using Estately.Services.Interfaces;
+using Estately.Services.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Estately.Services.Implementations
 {
     public class ServiceUser : IServiceUser
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ServiceUser(IUnitOfWork unitOfWork)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public ServiceUser(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
-        // 1. LIST USERS (SEARCH + PAGINATION)
-        public async Task<UserListViewModel> GetUsersPagedAsync(int page, int pageSize, string? search)
-        {
-            // Step 1: Load all users with UserType
-            var users = await _unitOfWork.UserRepository.ReadAllIncluding("UserType");
-            var query = users.AsQueryable();
 
-            // Step 2: Filtering (case-insensitive search)
+        public async Task<ApplicationUserListViewModel> GetUsersPagedAsync(int page, int pageSize, string? search)
+        {
+            var query = _unitOfWork.UserRepository.Query();
+
             if (!string.IsNullOrWhiteSpace(search))
             {
-                string searchLower = search.ToLower();
-
+                search = search.ToLower();
                 query = query.Where(u =>
-                    (u.Email ?? "").ToLower().Contains(searchLower) ||
-                    (u.Username ?? "").ToLower().Contains(searchLower)
+                    u.UserName!.ToLower().Contains(search) ||
+                    (u.Email != null && u.Email.ToLower().Contains(search))
                 );
             }
 
-            // Step 3: Total count AFTER FILTER
-            int totalCount = query.Count();
+            int total = query.Count();
 
-            // Step 4: Pagination
-            var pagedUsers = query
-                .OrderBy(u => u.UserID)
+            var users = query
+                .OrderBy(u => u.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
+            // Load user types once for name lookup
+            var userTypes = await _unitOfWork.UserTypeRepository.ReadAllAsync();
+            var userTypeDict = userTypes.ToDictionary(ut => ut.UserTypeID, ut => ut.UserTypeName);
 
-            // Step 5: Build ViewModel
-            return new UserListViewModel
+            var list = new ApplicationUserListViewModel
             {
-                Users = pagedUsers.Select(ConvertToViewModel).ToList(),
-                UserTypes = (await _unitOfWork.UserTypeRepository.ReadAllAsync())
-                    .Select(ut => new UserTypeViewModel
-                    {
-                        UserTypeID = ut.UserTypeID,
-                        UserTypeName = ut.UserTypeName,
-                    }).ToList(),
+                Users = users.Select(u => ConvertToVM(u, userTypeDict)).ToList(),
                 Page = page,
                 PageSize = pageSize,
-                SearchTerm = search,
-                TotalCount = totalCount
+                TotalCount = total,
+                SearchTerm = search
             };
+
+            return list;
         }
 
-        // ====================================================
-        // 2. GET USER BY ID
-        // ====================================================
-        public async Task<UserViewModel?> GetUserByIdAsync(int id)
+        public async Task<ApplicationUserViewModel?> GetUserByIdAsync(int id)
         {
-            var users = await _unitOfWork.UserRepository.ReadAllIncluding("UserType");
-            var user = users.FirstOrDefault(x => x.UserID == id);
-            return user == null ? null : ConvertToViewModel(user);
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
+            if (user == null) return null;
+
+            var userTypes = await _unitOfWork.UserTypeRepository.ReadAllAsync();
+            var userTypeDict = userTypes.ToDictionary(ut => ut.UserTypeID, ut => ut.UserTypeName);
+
+            return ConvertToVM(user, userTypeDict);
         }
 
-        // 4. UPDATE USER
-        public async Task UpdateUserAsync(UserViewModel model)
+        public async Task UpdateUserAsync(ApplicationUserViewModel model)
         {
-            var user = await _unitOfWork.UserRepository.GetByIdAsync(model.UserID);
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(model.Id);
             if (user == null) return;
 
+            var originalUserTypeId = user.UserTypeID;
+
+            user.UserName = model.UserName;
             user.Email = model.Email;
-            user.Username = model.Username;
+
+            // If the user type has changed (and neither old nor new type is admin), clean up old profile rows
+            if (model.UserTypeID != originalUserTypeId && originalUserTypeId != 4 && model.UserTypeID != 4)
+            {
+                // Employee profiles
+                var employees = await _unitOfWork.EmployeeRepository.Search(e => e.UserID == user.Id);
+                foreach (var emp in employees)
+                {
+                    await _unitOfWork.EmployeeRepository.DeleteAsync(emp.EmployeeID);
+                }
+
+                // Client profiles
+                var clients = await _unitOfWork.ClientProfileRepository.Search(c => c.UserID == user.Id);
+                foreach (var cli in clients)
+                {
+                    await _unitOfWork.ClientProfileRepository.DeleteAsync(cli.ClientProfileID);
+                }
+
+                // Developer profiles
+                var developers = await _unitOfWork.DeveloperProfileRepository.Search(d => d.UserID == user.Id);
+                foreach (var dev in developers)
+                {
+                    await _unitOfWork.DeveloperProfileRepository.DeleteAsync(dev.DeveloperProfileID);
+                }
+
+                await _unitOfWork.CompleteAsync();
+            }
+
+            // After cleanup, create a new profile row appropriate to the NEW type if needed
+            if (model.UserTypeID == 2) // Employee
+            {
+                var existingEmployees = await _unitOfWork.EmployeeRepository.Search(e => e.UserID == user.Id);
+                if (!existingEmployees.Any())
+                {
+                    // pick a valid default JobTitle and (optionally) BranchDepartment so constraints pass
+                    var jobTitles = await _unitOfWork.JobTitleRepository.ReadAllAsync();
+                    var firstJobTitle = jobTitles.FirstOrDefault();
+                    if (model.UserTypeID == 2) 
+                    { 
+                        var branchDepartments = await _unitOfWork.BranchDepartmentRepository.ReadAllAsync();
+                        var firstBranchDept = branchDepartments.FirstOrDefault();
+
+                        var newEmp = new TblEmployee
+                        {
+                            UserID = user.Id,
+                            FirstName = string.Empty,
+                            LastName = string.Empty,
+                            Gender = "NotSet",
+                            JobTitle = firstJobTitle!,
+                            Age = 18, // within valid range
+                            Phone = string.Empty,
+                            Nationalid = "00000000000000", // 14 numeric chars
+                            Salary = 0m,
+                            JobTitleId = firstJobTitle.JobTitleId,
+                            BranchDepartmentId = firstBranchDept?.BranchDepartmentID
+                        };
+
+                        await _unitOfWork.EmployeeRepository.AddAsync(newEmp);
+                        await _unitOfWork.CompleteAsync();
+                    }
+                }
+            }
+            else if (model.UserTypeID == 1) // Client
+            {
+                var existingClients = await _unitOfWork.ClientProfileRepository.Search(c => c.UserID == user.Id);
+                if (!existingClients.Any())
+                {
+                    var newClient = new TblClientProfile
+                    {
+                        UserID = user.Id
+                    };
+                    await _unitOfWork.ClientProfileRepository.AddAsync(newClient);
+                    await _unitOfWork.CompleteAsync();
+                }
+            }
+            else if (model.UserTypeID == 3) // Developer
+            {
+                var existingDevs = await _unitOfWork.DeveloperProfileRepository.Search(d => d.UserID == user.Id);
+                if (!existingDevs.Any())
+                {
+                    var newDev = new TblDeveloperProfile
+                    {
+                        UserID = user.Id,
+                        DeveloperTitle = ""
+                    };
+                    await _unitOfWork.DeveloperProfileRepository.AddAsync(newDev);
+                    await _unitOfWork.CompleteAsync();
+                }
+            }
+
             user.UserTypeID = model.UserTypeID;
 
-            await _unitOfWork.UserRepository.UpdateAsync(user);
-            await _unitOfWork.CompleteAsync();
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                // Let controller handle errors through IdentityResult if needed (for now we just return)
+                return;
+            }
         }
 
-        // ====================================================
-        // 5. DELETE USER (SOFT DELETE)
-        // ====================================================
         public async Task DeleteUserAsync(int id)
         {
             var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
             if (user == null) return;
 
-            await _unitOfWork.UserRepository.UpdateAsync(user);
-            await _unitOfWork.CompleteAsync();
-        }
-
-        // ====================================================
-        // 6. TOGGLE ACTIVE / INACTIVE
-        // ====================================================
-        //public async Task ToggleStatusAsync(int id)
-        //{
-        //    var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
-        //    if (user == null) return;
-
-        //    user.IsActive = !user.IsActive;
-
-        //    await _unitOfWork.UserRepository.UpdateAsync(user);
-        //    await _unitOfWork.CompleteAsync();
-        //}
-
-        // ====================================================
-        // 7. ASSIGN ROLE
-        // ====================================================
-        public async Task AssignRoleAsync(int userId, int userTypeId)
-        {
-            var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
-            if (user == null) return;
-
-            user.UserTypeID = userTypeId;
-
-            await _unitOfWork.UserRepository.UpdateAsync(user);
-            await _unitOfWork.CompleteAsync();
-        }
-
-        // ====================================================
-        // 8. USER COUNTER (STATS)
-        // ====================================================
-        public async Task<int> GetUserCounterAsync()
-        {
-            return await _unitOfWork.UserRepository.CounterAsync();
-        }
-
-        // ====================================================
-        // 9. GET MAX ID
-        // ====================================================
-        public int GetMaxIDAsync()
-        {
-            return _unitOfWork.UserRepository.GetMaxId();
-        }
-
-        // ====================================================
-        // 10. SEARCH USERS
-        // ====================================================
-        public async ValueTask<IEnumerable<TblUser>> SearchUserAsync(Expression<Func<TblUser, bool>> predicate)
-        {
-            return await _unitOfWork.UserRepository.Search(predicate);
-        }
-
-        public async Task<IEnumerable<UserTypeViewModel>> GetAllUserTypesAsync()
-        {
-            var types = await _unitOfWork.UserTypeRepository.ReadAllAsync();
-
-            return types.Select(ut => new UserTypeViewModel
+            // Block deletion for admin users
+            if (user.UserTypeID == 4)
             {
-                UserTypeID = ut.UserTypeID,
-                UserTypeName = ut.UserTypeName
-            });
+                return;
+            }
+
+            // Delete related profile entities first (if they exist), based on UserID foreign key
+
+            // Employee profile
+            var employees = await _unitOfWork.EmployeeRepository.Search(e => e.UserID == user.Id);
+            var employee = employees.FirstOrDefault();
+            if (employee != null)
+            {
+                await _unitOfWork.EmployeeRepository.DeleteAsync(employee.EmployeeID);
+            }
+
+            // Client profile
+            var clients = await _unitOfWork.ClientProfileRepository.Search(c => c.UserID == user.Id);
+            var client = clients.FirstOrDefault();
+            if (client != null)
+            {
+                await _unitOfWork.ClientProfileRepository.DeleteAsync(client.ClientProfileID);
+            }
+
+            // Developer profile
+            var developers = await _unitOfWork.DeveloperProfileRepository.Search(d => d.UserID == user.Id);
+            var developer = developers.FirstOrDefault();
+            if (developer != null)
+            {
+                await _unitOfWork.DeveloperProfileRepository.DeleteAsync(developer.DeveloperProfileID);
+            }
+
+            await _unitOfWork.CompleteAsync();
+
+            // Finally delete the identity user
+            await _userManager.DeleteAsync(user);
         }
 
-        // ====================================================
-        // HELPER: ENTITY -> VIEWMODEL
-        // ====================================================
-        private UserViewModel ConvertToViewModel(TblUser u)
+        private ApplicationUserViewModel ConvertToVM(ApplicationUser user, IDictionary<int, string>? userTypeDict = null)
         {
-            return new UserViewModel
+            string? userTypeName = null;
+            if (user.UserTypeID.HasValue && userTypeDict != null)
             {
-                UserID = u.UserID,
-                UserTypeID = u.UserTypeID,
-                Email = u.Email,
-                Username = u.Username,
-                CreatedAt = u.CreatedAt ?? DateTime.Now,
-                UserTypeName = u.UserType?.UserTypeName
+                userTypeDict.TryGetValue(user.UserTypeID.Value, out userTypeName);
+            }
+
+            return new ApplicationUserViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName ?? string.Empty,
+                Email = user.Email ?? string.Empty,
+                CreatedAt = user.CreatedAt,
+                UserTypeID = user.UserTypeID,
+                UserTypeName = userTypeName
             };
         }
     }
-} 
+}
