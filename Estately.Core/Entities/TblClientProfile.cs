@@ -41,6 +41,11 @@ public partial class TblClientProfile
     public virtual ICollection<TblFavorite>? TblFavorites { get; set; } = new List<TblFavorite>();
 
     [ForeignKey("UserID")]
+<<<<<<< HEAD
     [InverseProperty(nameof(ApplicationUser.ClientProfile))]
     public virtual ApplicationUser User { get; set; }
+=======
+    [InverseProperty("TblClientProfile")]
+    public virtual TblUser? User { get; set; }
+>>>>>>> dacaf1c709af6da3a4b9637f725e3b87f1c02934
 }

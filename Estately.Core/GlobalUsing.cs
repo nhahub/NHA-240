@@ -8,5 +8,9 @@ global using System.Threading.Tasks;
 global using System.Linq;
 global using System.Linq.Expressions;
 global using Estately.Core.Entities;
+<<<<<<< HEAD
 global using Microsoft.AspNetCore.Identity;
 global using Estately.Core.Entities.Identity;
+=======
+global using Microsoft.AspNetCore.Identity;
+>>>>>>> dacaf1c709af6da3a4b9637f725e3b87f1c02934
