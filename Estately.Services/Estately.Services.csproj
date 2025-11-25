@@ -25,4 +25,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Estately.Core\Estately.Core.csproj" />
+    <ProjectReference Include="..\Estately.Infrastructure\Estately.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

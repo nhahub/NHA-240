@@ -1,0 +1,302 @@
+@{
+    ViewData["Title"] = ViewData["Title"] ?? "Admin Dashboard";
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="~/favicon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css" />
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/all.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    
+    <style>
+        .admin-sidebar {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #00204a 0%, #003d7a 100%);
+            padding: 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto !important; /* allow menu to scroll if it is taller than the viewport */
+        }
+        .admin-sidebar .logo {
+            padding: 20px;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .admin-sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            padding-left: 25px;
+        }
+        .admin-content {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: 100vh;
+            background: #f5f5f5;
+        }
+        .admin-header {
+            background: #fff;
+            padding: 15px 30px;
+            margin: -20px -20px 20px -20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .stat-card h3 {
+            color: #00204a;
+            font-size: 32px;
+            margin: 0;
+        }
+        .stat-card p {
+            color: #666;
+            margin: 5px 0 0 0;
+        }
+        .table-container {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn-admin {
+            background: #00204a;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .btn-admin:hover {
+            background: #003d7a;
+            color: #fff;
+        }
+        .btn-admin-outline {
+            border: 1px solid #00204a;
+            color: #00204a;
+            background: transparent;
+        }
+        .btn-admin-outline:hover {
+            background: #00204a;
+            color: #fff;
+        }
+        @@media (max-width: 768px) {
+            .admin-sidebar {
+                width: 100%;
+                position: relative;
+                min-height: auto;
+            }
+            .admin-content {
+                margin-left: 0;
+            }
+        }
+
+        .btn-edit {
+            background-color: #00204A !important;
+            color: white !important;
+            transition: 0.3s ease !important;
+        }
+
+            .btn-edit:hover {
+                background-color: #003A87 !important; /* slightly darker navy */
+            }
+
+        .btn-details {
+            background-color: #6C757D;
+            color: white;
+            transition: 0.3s ease !important;
+        }
+
+            .btn-details:hover {
+                background-color: #5a6268 !important; /* darker gray */
+                color: white;
+            }
+
+        .btn-delete {
+            background-color: #dc3545 !important;
+            color: white !important;
+            transition: 0.3s ease !important;
+        }
+
+            .btn-delete:hover {
+                background-color: #c82333 !important; /* darker red */
+            }
+
+        .btn-create {
+            background-color: #00204A !important;
+            color: white !important;
+            transition: 0.3s ease !important;
+        }
+
+            .btn-create:hover {
+                background-color: #003A87 !important;
+            }
+
+        .custom-pagination-container {
+            width: 100% !important;
+            display: flex !important;
+            justify-content: center !important; /* Center the pagination */
+        }
+
+
+        .custom-pagination {
+            display: flex !important;
+            flex-wrap: wrap !important; /* Make responsive on small screens */
+            gap: 8px !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin: 20px 0 !important;
+        }
+
+        .page-btn,
+        .page-btn.disabled {
+            padding: 10px 16px !important;
+            border: 1px solid #00204A !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            color: #00204A !important;
+            background: white !important;
+            font-weight: 500 !important;
+            min-width: 45px !important;
+            text-align: center !important; /* Text centered inside box */
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            transition: 0.3s ease !important;
+        }
+
+            .page-btn:hover {
+                background: #00204A !important;
+                color: white !important;
+            }
+
+            /* Active page matches hover */
+            .page-btn.active {
+                background: #00204A !important;
+                color: white !important;
+            }
+
+            /* Disabled button */
+            .page-btn.disabled {
+                background: #f5f5f5 !important;
+                color: #bbb !important;
+                cursor: not-allowed !important;
+                pointer-events: none !important;
+            }
+
+        .actions-cell .action-buttons {
+            display: flex !important;
+            gap: 6px !important;
+            align-items: center !important;
+        }
+
+        .actions-cell form {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* RESPONSIVE */
+        @@media (max-width: 576px) {
+            .page-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+                min-width: 38px;
+            }
+        }
+    </style>
+
+    <title>@ViewData["Title"] - Admin Dashboard</title>
+</head>
+<body>
+    <div class="admin-sidebar">
+        <div class="logo">Estately Admin</div>
+        <nav class="nav flex-column">
+            <a class="nav-link @(currentController == "Admin" ? "active" : "")" asp-controller="Admin" asp-action="Dashboard">
+                <i class="fa-solid fa-chart-column me-2"></i> Dashboard
+            </a>
+            <a class="nav-link @(currentController == "ApplicationUsers" ? "active" : "")" asp-controller="ApplicationUsers" asp-action="Index">
+                <i class="bi bi-people me-2"></i> Users
+            </a>
+            <a class="nav-link @(currentController == "TblProperties" ? "active" : "")" asp-controller="TblProperties" asp-action="Index">
+                <i class="bi bi-house-door me-2"></i> Properties
+            </a>
+            <a class="nav-link @(currentController == "TblAppointments" ? "active" : "")" asp-controller="TblAppointments" asp-action="Index">
+                <i class="bi bi-calendar-check me-2"></i> Appointments
+            </a>
+            <a class="nav-link @(currentController == "TblEmployees" ? "active" : "")" asp-controller="TblEmployees" asp-action="Index">
+                <i class="bi bi-briefcase me-2"></i> Employees
+            </a>
+            <a class="nav-link @(currentController == "TblBranches" ? "active" : "")" asp-controller="TblBranches" asp-action="Index">
+                <i class="bi bi-building me-2"></i> Branches
+            </a>
+            <a class="nav-link @(currentController == "TblDepartments" ? "active" : "")" asp-controller="TblDepartments" asp-action="Index">
+                <i class="bi bi-diagram-3 me-2"></i> Departments
+            </a>
+            <a class="nav-link @(currentController == "TblCities" ? "active" : "")" asp-controller="TblCities" asp-action="Index">
+                <i class="fa-solid fa-earth-americas me-2"></i> Cities
+            </a>
+            <a class="nav-link @(currentController == "TblZones" ? "active" : "")" asp-controller="TblZones" asp-action="Index">
+                <i class="fa-solid fa-location-dot me-2"></i> Zones
+            </a>
+            <a class="nav-link @(currentController == "LkpPropertyTypes" ? "active" : "")" asp-controller="LkpPropertyTypes" asp-action="Index">
+                <i class="bi bi-tags me-2"></i> Property Types
+            </a>
+            <a class="nav-link @(currentController == "LkpPropertyStatus" ? "active" : "")" asp-action="Index" asp-controller="LkpPropertyStatus">
+                <i class="bi bi-info-circle me-2"></i> Property Statuses
+            </a>
+            <a class="nav-link @(currentController == "TblPropertyFeatures" ? "active" : "")" asp-controller="TblPropertyFeatures" asp-action="Index">
+                <i class="fa-regular fa-circle-check me-2"></i> Property Features
+            </a>
+            <a class="nav-link @(currentController == "LkpUserTypes" ? "active" : "")" asp-controller="LkpUserTypes" asp-action="Index">
+                <i class="bi bi-person-badge me-2"></i> User Types
+            </a>
+        </nav>
+    </div>
+
+    <div class="admin-content">
+        <div class="admin-header">
+            <h4 class="mb-0">@ViewData["Title"]</h4>
+            <div>
+                <a asp-action="Index" asp-controller="App" class="btn btn-sm btn-admin-outline">
+                    <i class="bi bi-house me-1"></i> View Site
+                </a>
+            </div>
+        </div>
+
+        @RenderBody()
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
