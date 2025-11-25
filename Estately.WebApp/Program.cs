@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 ﻿using Estately.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-=======
-using Microsoft.AspNetCore.Identity;
-
->>>>>>> dacaf1c709af6da3a4b9637f725e3b87f1c02934
 namespace Estately.WebApp
 {
     public class Program
@@ -18,7 +13,6 @@ namespace Estately.WebApp
             builder.Services.AddDbContext<AppDBContext>(options =>
                 options.UseSqlServer(connectionString));
 
-<<<<<<< HEAD
             // Use custom ApplicationUser/ApplicationRole with int keys
             builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(
                 options => options.Password = new PasswordOptions
@@ -39,27 +33,13 @@ namespace Estately.WebApp
             {
                 options.LoginPath = "/Accounts/Login";
             });
-=======
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AppDBContext>();
-
->>>>>>> dacaf1c709af6da3a4b9637f725e3b87f1c02934
             //builder.Services.AddControllersWithViews();
             builder.Services.AddControllersWithViews().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
 
-<<<<<<< HEAD
             // register repositories & unitofwork
-=======
-            //Add Context with Connection 
-            //builder.Services.AddDbContext<AppDBContext>(options =>
-            //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
->>>>>>> dacaf1c709af6da3a4b9637f725e3b87f1c02934
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -30,11 +30,6 @@ public partial class TblPropertyDocument
     public virtual TblProperty Property { get; set; }
 
     [ForeignKey("UserID")]
-<<<<<<< HEAD
     [InverseProperty(nameof(ApplicationUser.PropertyDocuments))]
     public virtual ApplicationUser User { get; set; }
-=======
-    [InverseProperty("TblPropertyDocuments")]
-    public virtual TblUser User { get; set; }
->>>>>>> dacaf1c709af6da3a4b9637f725e3b87f1c02934
 }
