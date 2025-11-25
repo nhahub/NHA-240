@@ -26,12 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Estately.Core\Estately.Core.csproj" />
-    <ProjectReference Include="..\Estately.Infrastructure\Estately.Infrastructure.csproj" />
-    <ProjectReference Include="..\Estately.Services\Estately.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\images\Properties\" />
   </ItemGroup>
 
