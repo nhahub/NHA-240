@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estately.Infrastructure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estately.Services", "Estately.Services\Estately.Services.csproj", "{3E06944B-4C31-D583-6108-F444B6A95CC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estately.WebApp", "Estately.WebApp\Estately.WebApp.csproj", "{98ADBB78-DBFA-E977-E636-B376D2CB6625}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3E06944B-4C31-D583-6108-F444B6A95CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E06944B-4C31-D583-6108-F444B6A95CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E06944B-4C31-D583-6108-F444B6A95CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98ADBB78-DBFA-E977-E636-B376D2CB6625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98ADBB78-DBFA-E977-E636-B376D2CB6625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98ADBB78-DBFA-E977-E636-B376D2CB6625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98ADBB78-DBFA-E977-E636-B376D2CB6625}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
