@@ -29,7 +29,4 @@ public partial class TblPropertyDocument
     [InverseProperty("TblPropertyDocuments")]
     public virtual TblProperty Property { get; set; }
 
-    [ForeignKey("UserID")]
-    [InverseProperty(nameof(ApplicationUser.PropertyDocuments))]
-    public virtual ApplicationUser User { get; set; }
 }
